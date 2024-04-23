@@ -47,7 +47,7 @@ def calculate(message):
                     win[i] = winnings(returns[i], stake[i])
             total_cost = np.sum(stake)
         if arbitrage:
-            bot.reply_to(message, f"Arbitrage found! Optimal stake:{stake}")
+            bot.reply_to(message, f"Arbitrage found! Optimal stake:{stake*50}")
         else:
             bot.reply_to(message, "No arbitrage found!")
 
