@@ -56,7 +56,7 @@ def calculate(message):
                 stake *= 2
             stake *= 50 # multiplied by 50 to match in-game betting sizes
             stake = stake.astype(int).tolist()
-            bot.reply_to(message, f"Arbitrage found! Optimal stake: {stake}") 
+            bot.reply_to(message, f"Arbitrage found! Optimal bet size: {stake}") 
         else:
             bot.reply_to(message, "No arbitrage found!")
 
