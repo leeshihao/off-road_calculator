@@ -32,20 +32,23 @@ def calculate(message):
         stake = np.ones(6)
         win = np.zeros(6)
         for i in range(6):
-            win[i] = winnings(returns[i], stake[i])
+            win[i] = returns[i]*stake[i]
         arbitrage = False
-        total_cost = np.sum(stake)
-        while total_cost < 30:
+        total_cost = np.sum(stake) + np.sum(np.ceil((stake-4)/8)) # include cost of going over bet size = 4
+        while total_cost < 36:
+            # maximum bet size = 12
             if np.any(stake>12):
                 break
+            # check if all bets will be positive EV
             if np.all(win>=total_cost):
                 arbitrage = True
                 break
+            # update values for next iteration
             for i in range(6):
                 if win[i] < total_cost:
                     stake[i] += 1
-                    win[i] = winnings(returns[i], stake[i])
-            total_cost = np.sum(stake)
+                    win[i] = returns[i]*stake[i]
+            total_cost = np.sum(stake) + np.sum(np.ceil((stake-4)/8))
 
         # output if arbitrage is possible and what the optimal stake is
         if arbitrage:
@@ -62,11 +65,5 @@ def calculate(message):
 
     except ValueError:
         bot.reply_to(message, "Please make sure to input numbers in a proper array format like [1, 2, 3, 4, 5, 6].")
-    
-def winnings(ret, stake):
-    if stake > 4:
-        return ret*stake - np.ceil((stake-4)/8)
-    else:
-        return ret*stake
 
 bot.infinity_polling()
