@@ -46,8 +46,17 @@ def calculate(message):
                     stake[i] += 1
                     win[i] = winnings(returns[i], stake[i])
             total_cost = np.sum(stake)
+
+        # output if arbitrage is possible and what the optimal stake is
         if arbitrage:
-            bot.reply_to(message, f"Arbitrage found! Optimal stake:{stake*50}")
+            # simple heuristic to increase winnings if the bet sizes are small
+            if np.all(stake<=1):
+                stake *= 4
+            elif np.all(stake<=2):
+                stake *= 2
+            stake *= 50 # multiplied by 50 to match in-game betting sizes
+            stake = stake.astype(int).tolist()
+            bot.reply_to(message, f"Arbitrage found! Optimal stake: {stake}") 
         else:
             bot.reply_to(message, "No arbitrage found!")
 
