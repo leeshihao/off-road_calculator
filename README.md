@@ -3,4 +3,4 @@ Off-road is a simple betting game in Maplestory R. This bot takes in a list of v
 
 Example of output when there is a possible arbitrage:
 <br/>
-<img width="450" alt="arbitrage_found_example" src="https://github.com/leeshihao/off-road_calculator/assets/85607917/b294b765-da8a-4d89-bcf5-616b2e7b1a53" width="50%">
+<img width="450" alt="arbitrage_found_example" src="https://github.com/leeshihao/off-road_calculator/assets/85607917/89849899-c58d-4990-baec-b469bb7e0830" width="50%">
