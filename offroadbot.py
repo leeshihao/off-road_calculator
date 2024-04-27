@@ -2,6 +2,7 @@ import os
 import telebot
 import numpy as np
 
+WEBAPP_HOST = '0.0.0.0'
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
 
 bot = telebot.TeleBot(BOT_TOKEN)
