@@ -4,6 +4,8 @@ import numpy as np
 from dotenv import load_dotenv
 import atexit
 import tempfile
+from flask import Flask
+import threading
 
 # Path for the lock file
 temp_dir = tempfile.gettempdir()
@@ -26,6 +28,7 @@ if not BOT_TOKEN:
     raise ValueError("No Telegram bot token provided.")
 
 bot = telebot.TeleBot(BOT_TOKEN)
+app = Flask(__name__)
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
@@ -87,7 +90,26 @@ def calculate(message):
     except ValueError:
         bot.reply_to(message, "Please make sure to input numbers in a proper array format like [1, 2, 3, 4, 5, 6].")
 
-bot.infinity_polling()
+@app.route('/')
+def index():
+    return "Hello, I am a Telegram bot!"
+
+def run():
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 4000)))
+
+def bot_polling():
+    try:
+        bot.polling(none_stop=True)
+    except Exception as e:
+        bot.stop_polling()
+        raise e
+
+if __name__ == '__main__':
+    t1 = threading.Thread(target=bot_polling)
+    t1.start()
+    run()
+
+# bot.infinity_polling()
 
 # Code to remove the lock file on exit
 def remove_lock():
