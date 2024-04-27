@@ -3,9 +3,11 @@ import telebot
 import numpy as np
 from dotenv import load_dotenv
 import atexit
+import tempfile
 
 # Path for the lock file
-lock_file_path = '/bot.lock'
+temp_dir = tempfile.gettempdir()
+lock_file_path = os.path.join(temp_dir, 'bot.lock')
 
 # Function to check if another instance is running
 def check_lock():
