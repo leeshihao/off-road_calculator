@@ -21,7 +21,6 @@ def check_lock():
 check_lock()
 
 load_dotenv()
-WEBAPP_HOST = '0.0.0.0'
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
 if not BOT_TOKEN:
     raise ValueError("No Telegram bot token provided.")
