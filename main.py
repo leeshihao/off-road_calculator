@@ -2,6 +2,21 @@ import os
 import telebot
 import numpy as np
 from dotenv import load_dotenv
+import atexit
+
+# Path for the lock file
+lock_file_path = '/bot.lock'
+
+# Function to check if another instance is running
+def check_lock():
+    if os.path.exists(lock_file_path):
+        print("Another instance is already running.")
+        exit(0)
+    else:
+        open(lock_file_path, 'w').close()
+
+# Ensure only one instance runs
+check_lock()
 
 load_dotenv()
 WEBAPP_HOST = '0.0.0.0'
@@ -72,5 +87,9 @@ def calculate(message):
         bot.reply_to(message, "Please make sure to input numbers in a proper array format like [1, 2, 3, 4, 5, 6].")
 
 bot.infinity_polling()
-    # finally:
-    #     release_lock()
+
+# Code to remove the lock file on exit
+def remove_lock():
+    os.remove(lock_file_path)
+
+atexit.register(remove_lock)
