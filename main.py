@@ -6,6 +6,7 @@ import atexit
 import tempfile
 from flask import Flask
 import threading
+import logging
 
 # Path for the lock file
 temp_dir = tempfile.gettempdir()
@@ -29,11 +30,13 @@ if not BOT_TOKEN:
 
 bot = telebot.TeleBot(BOT_TOKEN)
 app = Flask(__name__)
+logging.basicConfig(filename='bot_usage.log', level=logging.INFO, format='%(asctime)s - %(message)s')
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     sent_msg = bot.send_message(
         message.chat.id, "Hello! I am an off-road calculator for Maplestory R. Please tell me what the returns are and I will calculate if it is possible to win as well as the optimal bet size. Please input in an array of this form: [1, 2, 3, 4, 5, 6]")
+    logging.info(f"User {message.from_user.id} started the bot")
     bot.register_next_step_handler(
         sent_msg, calculate)
 
