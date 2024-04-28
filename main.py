@@ -46,9 +46,7 @@ def calculate(message):
 
         # calculate if arbitrage is possible
         odds = 1/returns
-        if np.sum(odds) < 1:
-            bot.reply_to(message, "Possible arbitrage!")
-        else:
+        if np.sum(odds) >= 1:
             bot.reply_to(message, "No winnings available!")
             return
 
@@ -85,7 +83,7 @@ def calculate(message):
             stake = stake.astype(int).tolist()
             bot.reply_to(message, f"Arbitrage found! Optimal bet size: {stake}") 
         else:
-            bot.reply_to(message, "No arbitrage found!")
+            bot.reply_to(message, "No winnings available!")
 
     except ValueError:
         bot.reply_to(message, "Please make sure to input numbers in a proper array format like [1, 2, 3, 4, 5, 6].")
@@ -108,8 +106,6 @@ if __name__ == '__main__':
     t1 = threading.Thread(target=bot_polling)
     t1.start()
     run()
-
-# bot.infinity_polling()
 
 # Code to remove the lock file on exit
 def remove_lock():
